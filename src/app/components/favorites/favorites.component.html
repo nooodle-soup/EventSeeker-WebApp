@@ -1,1 +1,36 @@
-<p>favorites works!</p>
+<div class="justify-content-center row ms-1 me-1 pb-3" *ngIf="favoriteEventsKeys().length === 0">
+  <div class="col-sm-6 text-center pt-5 ps-5 pe-5">
+    <label class="rounded-5 bg-white text-danger fs-6 w-100 fw-bold">No favorite events to show</label>
+  </div>
+</div>
+
+<div class="justify-content-center row ms-1 me-1 pb-3 ps-1 pe-1" *ngIf="favoriteEventsKeys().length > 0">
+  <div class="col-md-8 text-center pb-4">
+    <label class="fs-5 eventDetailsLabel fw-bold">List of your favorite events</label>
+  </div>
+  <div class="col-md-8 rounded-4 bg-white overflow-auto">
+    <table class="table table-sm text-center">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Event</th>
+          <th>Category</th>
+          <th>Venue</th>
+          <th>Favorite</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let eventId of favoriteEventsKeys(); let i = index">
+          <td class="fw-bold"><small>{{ i + 1 }}</small></td>
+          <td><small>{{ favoriteEvents[eventId].date }}</small></td>
+          <td><small>{{ favoriteEvents[eventId].name }}</small></td>
+          <td><small>{{ favoriteEvents[eventId].category }}</small></td>
+          <td><small>{{ favoriteEvents[eventId].venue }}</small></td>
+          <td><i class="fa fa-trash fs-4 p-1" (click)="removeFavorite(eventId)"></i></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
