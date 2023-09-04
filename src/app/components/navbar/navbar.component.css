@@ -1,0 +1,41 @@
+#head-navbar {
+  width: 100%;
+  white-space: nowrap;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.nav>li {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+ul.navbar-nav{
+  display: inline-block;
+}
+
+.nav>li>a {
+  padding: 10px 5px;
+}
+
+.navbar {
+  width: 100%;
+  background-color: transparent;
+}
+
+.nav-link {
+  color: white;
+  margin-left: 20px;
+  border: none;
+}
+
+.navbar-nav .active a {
+  border: 2px solid white;
+  border-radius: 10px;
+}
+
+.navbar-nav a {
+  border: 2px solid transparent;
+  border-radius: 10px;
+}
+

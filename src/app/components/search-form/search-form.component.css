@@ -1,0 +1,42 @@
+.search-box-container {
+    padding-top: 40px;
+}
+
+.search-box {
+    background-color: rgb(255,255,255,0.20);
+    backdrop-filter: blur(8px);
+    border-spacing: 0;
+    border-radius: 25px;
+    width:600px
+}
+
+.search-box-head {
+    color: white;
+    font-size: 40px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: lighter;
+    text-align: center;
+}
+
+.row .col label {
+    color: #7db4bd;
+    font-family: sans-serif;
+    height: 22px;
+}
+
+#autodetect {
+    padding-left: 10px;
+}
+
+label sup {
+    color: red;
+}
+
+hr {
+    color: white;
+}
+
+select option{
+    color: #ffffff;
+    background-color: #262d2d;
+} 

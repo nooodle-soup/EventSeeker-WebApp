@@ -1,0 +1,14 @@
+<app-search-form (searchFormSubmitted)="onSearchFormSubmitted($event)" (searchFormCleared)="onSearchFormCleared()"></app-search-form>
+<app-event-list
+  *ngIf="displayEventList"
+  [events]="events"
+  (eventDetailsRequested)="onEventDetailsRequested($event)">
+</app-event-list>
+<app-no-events *ngIf="noEventsToDisplay"></app-no-events>
+<app-event-details
+  *ngIf="displayEventDetails"
+  [eventDetails]="eventDetails"
+  [event]="event"
+  [venueDetails]="venueDetails"
+  (showEventList)="onShowEventList()">
+</app-event-details>

@@ -1,0 +1,12 @@
+.table {
+    padding-top: 60px;
+}
+
+td, th {
+    text-align: center;
+}
+
+img.eventList {
+    height: 75px;
+    width: 75px;
+}

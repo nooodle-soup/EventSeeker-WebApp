@@ -1,0 +1,293 @@
+<div class="justify-content-center row pt-5 ms-1 me-1 pb-5">
+  <div class="pt-5 justify-content-center d-flex">
+    <div class="col-md-6 text-center blurclass tabs">
+      <div class="justify-content-start d-flex pb-4 pt-2">
+        <span class="ps-2 material-icons text-white backButton" (click)="emitShowEventList()">
+          keyboard_arrow_left
+        </span>
+        <label class="text-white fs-6 text-decoration-underline backButton" (click)="emitShowEventList()">
+          Back
+        </label>
+      </div>
+      <div class="row d-flex justify-content-center ps-4 pe-4">
+        <div class="col-auto pb-4 d-flex align-items-center">
+          <label class="text-white fw-normal fs-4 col">
+            {{ eventDetails.name }}
+          </label>
+          <span *ngIf="favoriteEvents[eventDetails.id] === undefined"
+            class="material-icons bg-white rounded-5 text-dark p-2 backButton" (click)="addToFavorites()">
+            favorite_border
+          </span>
+          <span *ngIf="favoriteEvents[eventDetails.id] !== undefined"
+            class="material-icons bg-white rounded-5 text-danger p-2 backButton" (click)="removeFromFavorites()">
+            favorite
+          </span>
+        </div>
+      </div>
+      <mat-tab-group mat-align-tabs="center">
+        <mat-tab label="Events" class="text-white fs-6">
+          <div class="overflow-hidden">
+            <div class="row ps-4 pe-4 pb-4">
+              <div class="col-sm-6">
+                <div *ngIf="eventDetails.time" class="justify-content-center d-flex row pt-4">
+                  <div><label class="fw-bold fs-5 eventDetailsLabel">Date</label></div>
+                  <div *ngIf="eventDetails.date" class="text-white">{{ eventDetails.date }}</div>
+                </div>
+                <div *ngIf="eventDetails?.venue" class="justify-content-center d-flex row pt-3">
+                  <div><label class="fw-bold fs-5 eventDetailsLabel">Venue</label> </div>
+                  <label class="text-white">{{ eventDetails.venue }}</label>
+                </div>
+                <div *ngIf="eventDetails?.genres" class="justify-content-center d-flex row pt-3">
+                  <div><label class="fw-bold fs-5 eventDetailsLabel">Genres</label></div>
+                  <label class="text-white">{{ eventDetails.genres }}</label>
+                </div>
+                <div *ngIf="eventDetails?.priceRanges && eventDetails?.priceRanges.length > 0"
+                  class="justify-content-center d-flex row pt-3">
+                  <div><label class="fw-bold fs-5 eventDetailsLabel">Price Ranges</label></div>
+                  <label class="text-white">{{ eventDetails.priceRanges.length > 1 ? eventDetails.priceRanges[0].min +
+                    ' - ' + eventDetails.priceRanges[0].max : eventDetails.priceRanges[0].min }}</label>
+                </div>
+                <div *ngIf="eventDetails?.ticketStatus" class="justify-content-center d-flex row pt-3">
+                  <div><label class="fw-bold fs-5 eventDetailsLabel">Ticket Status</label></div>
+                  <label class="text-white bg-success rounded-3 w-auto"
+                    *ngIf="eventDetails.ticketStatus === 'onsale'">On
+                    Sale</label>
+                  <label class="text-white bg-danger rounded-3 w-auto"
+                    *ngIf="eventDetails.ticketStatus === 'offsale'">Off
+                    Sale</label>
+                  <label class="text-white bg-dark rounded-3 w-auto"
+                    *ngIf="eventDetails.ticketStatus === 'canceled'">Canceled</label>
+                  <label class="text-white bg-warning rounded-3 w-auto"
+                    *ngIf="eventDetails.ticketStatus === 'postponed'">Postponed</label>
+                  <label class="text-white bg-warning rounded-3 w-auto"
+                    *ngIf="eventDetails.ticketStatus === 'rescheduled'">Rescheduled</label>
+                </div>
+                <div *ngIf="eventDetails?.buyTicketUrl" class="justify-content-center d-flex row pt-3">
+                  <div><label class="fw-bold fs-5 eventDetailsLabel">Buy Ticket At:</label></div>
+                  <a class="text-primary" [href]="eventDetails.buyTicketUrl" target="_blank">Ticketmaster</a>
+                </div>
+              </div>
+              <div *ngIf="eventDetails?.seatmapUrl" class="col-sm-6 d-flex align-items-center">
+                <div class="pt-3">
+                  <img [src]="eventDetails.seatmapUrl" alt="" class="img-fluid">
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center pb-4">
+              <label class="text-white d-flex align-items-center">Share on: </label>
+              <!-- Twitter and Facebook sharing links -->
+              <a [href]="'https://twitter.com/intent/tweet?text=Check ' + eventDetails.name + ' on Ticketmaster. ' + eventDetails.buyTicketUrl"
+                target="_blank">
+                <i class="fa fa-twitter fs-4 text-info p-1"></i>
+              </a>
+              <a [href]="'https://www.facebook.com/sharer/sharer.php?u=' + eventDetails.buyTicketUrl + '&amp;src=sdkpreparse'"
+                target="_blank">
+                <i class="fa fa-facebook fs-4 p-1"></i>
+              </a>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Artist/Teams" class="text-white fs-6">
+          <div class="overflow-hidden">
+            <div class="justify-content-center d-flex row p-5" *ngIf="eventDetails.genres !== 'Music'">
+              <div class="p-5">
+                <label class="rounded-5 bg-white text-danger fw-bold fs-6 w-100">No music related artist details to
+                  show</label>
+              </div>
+            </div>
+            <div class="justify-content-center" *ngIf="eventDetails.genres === 'Music'">
+              <div id="artistsCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <!-- Carousel has been referred from: https://getbootstrap.com/docs/5.2/components/carousel/ -->
+                  <div class="carousel-item" *ngFor="let artistInfo of eventDetails.spotifyInfo; let i = index"
+                    [ngClass]="artistInfo === eventDetails.spotifyInfo[0] ? 'active' : ''">
+                    <div class="row ps-5 pe-5 pt-3 d-flex justify-content-center">
+                      <div class="row d-flex ps-5 pe-5 justify-content-center">
+                        <div class="row d-flex justify-content-center">
+                          <div class="col-sm-6 col-md-3 col-lg-3">
+                            <img [src]="artistInfo.artist.images[0].url" alt="" class="rounded-circle img-fluid">
+                            <br />
+                            <a [href]="artistInfo.artist.external_urls.spotify" target="_blank"
+                              class="text-break text-wrap" style="text-decoration: none;">
+                              <label class="eventDetailsLabel fw-bold fs-5">{{ artistInfo.artist.name }}</label>
+                            </a>
+                          </div>
+                          <div class="col-sm-6 col-md-3 pt-3 col-lg-3">
+                            <label
+                              class="eventDetailsLabel fw-bold fs-6 d-flex align-items-center justify-content-center pt-3 text-break text-wrap">Popularity</label>
+                            <br />
+                            <div class="popularity d-flex align-items-center justify-content-center">
+                              <mat-progress-spinner color="warn" mode="determinate"
+                                [value]="artistInfo.artist.popularity" diameter="40"></mat-progress-spinner>
+                              <div class="text-white position-absolute">{{ artistInfo.artist.popularity }}</div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-3 pt-3 col-lg-3">
+                            <label
+                              class="eventDetailsLabel fw-bold fs-6 d-flex align-items-center justify-content-center pt-3 text-break text-wrap">Followers</label>
+                            <br />
+                            <label class="text-white d-flex fw-bold align-items-center justify-content-center">{{
+                              artistInfo.artist.followers.total }}</label>
+                          </div>
+                          <div class="col-sm-6 col-md-3 pt-3 col-lg-3">
+                            <label
+                              class="eventDetailsLabel fw-bold fs-6 d-flex align-items-center justify-content-center pt-3 text-break text-wrap">Spotify
+                              Link</label>
+                            <br />
+                            <a [href]="artistInfo.artist.external_urls.spotify" target="_blank"
+                              class="d-flex align-items-center justify-content-center text-decoration-none">
+                              <i class="fa fa-spotify fs-2 text-success"></i>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ps-5 pe-5">
+                      <label class="eventDetailsLabel fw-bold fs-6 pt-5 ps-5 d-flex justify-content-center">Albums
+                        featuring {{ artistInfo.artist.name }}</label>
+                    </div>
+                    <div class="row pt-3 ps-5 pe-5 pb-5 d-flex justify-content-center">
+                      <div class="ps-5 pe-5 row d-flex justify-content-center">
+                        <div class="col-sm-6 col-md-4 col-lg-4 d-flex justify-content-center"
+                          *ngFor="let album of artistInfo.albums; let i = index">
+                          <img [src]="album.images[1].url" alt="" class="p-2 img-fluid">
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Include more artist-related content here -->
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#artistsCarousel"
+                  data-bs-slide="prev" *ngIf="eventDetails.spotifyInfo.length > 1">
+                  <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#artistsCarousel"
+                  data-bs-slide="next" *ngIf="eventDetails.spotifyInfo.length > 1">
+                  <span class="carousel-control-next-icon"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <!--
+        <mat-tab label="Venue" class="text-white fs-6">
+          <div class="overflow-hidden p-2">
+            <div class="row pt-2 pb-4">
+              <div class="col-sm-6">
+                <div *ngIf="venueDetails?.name" class="justify-content-center d-flex row pt-3">
+                  <div><label class="fw-bold fs-5 eventDetailsLabel">Name</label></div>
+                  <label class="text-white">{{ venueDetails.name }}</label>
+                </div>
+                <div *ngIf="venueDetails?.addressLine1">
+                  <div class="justify-content-center d-flex row pt-3">
+                    <div><label class="fw-bold fs-5 eventDetailsLabel">Address</label></div>
+                    <label class="text-white">{{ venueDetails.addressLine1 }}, {{ venueDetails.cityName }}, {{
+                      venueDetails.stateName }}</label>
+                  </div>
+                </div>
+                <div *ngIf="venueDetails?.boxOfficePhoneNumber">
+                  <div class="justify-content-center d-flex row pt-3">
+                    <div><label class="fw-bold fs-5 eventDetailsLabel">Phone Number</label></div>
+                    <label class="text-white">{{ venueDetails.boxOfficePhoneNumber }}</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div *ngIf="venueDetails?.boxOfficeOpenHours">
+                  <div class="justify-content-center d-flex row pt-3">
+                    <div><label class="fw-bold fs-5 eventDetailsLabel">Open Hours</label></div>
+                    <div [ngClass]="venueOpenHoursShowMore ? '' : 'overflow-hidden'"
+                      [ngStyle]="{ height: venueOpenHoursShowMore ? 'auto' : '45px' }">
+                      <label class="text-white">{{ venueDetails.boxOfficeOpenHours }}</label>
+                    </div>
+                    <div *ngIf="!venueOpenHoursShowMore">
+                      <label class="text-info fs-6 text-decoration-underline backButton"
+                        (click)="showMoreOpenHours()">Show More</label>
+                      <span class="material-icons text-white backButton"
+                        (click)="showMoreOpenHours()">keyboard_arrow_down</span>
+                    </div>
+                    <div *ngIf="venueOpenHoursShowMore">
+                      <label class="text-info fs-6 text-decoration-underline backButton"
+                        (click)="showMoreOpenHours()">Show Less</label>
+                      <span class="material-icons text-white backButton"
+                        (click)="showMoreOpenHours()">keyboard_arrow_up</span>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="venueDetails?.generalRule">
+                  <div class="justify-content-center d-flex row pt-3">
+                    <div><label class="fw-bold fs-5 eventDetailsLabel">General Rule</label></div>
+                    <div [ngClass]="venueGeneralRuleShowMore ? '' : 'overflow-hidden'"
+                      [ngStyle]="{ height: venueGeneralRuleShowMore ? 'auto' : '45px' }">
+                      <label class="text-white">{{ venueDetails.generalRule }}</label>
+                    </div>
+                    <div *ngIf="!venueGeneralRuleShowMore">
+                      <label class="text-info fs-6 text-decoration-underline backButton"
+                        (click)="showMoreGeneralRule()">Show More</label>
+                      <span class="material-icons text-white backButton"
+                        (click)="showMoreGeneralRule()">keyboard_arrow_down</span>
+                    </div>
+                    <div *ngIf="venueGeneralRuleShowMore">
+                      <label class="text-info fs-6 text-decoration-underline backButton"
+                        (click)="showMoreGeneralRule()">Show Less</label>
+                      <span class="material-icons text-white backButton"
+                        (click)="showMoreGeneralRule()">keyboard_arrow_up</span>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="venueDetails?.childRule">
+                  <div class="justify-content-center d-flex row pt-3">
+                    <div><label class="fw-bold fs-5 eventDetailsLabel">Child Rule</label></div>
+                    <div [ngClass]="venueChildRuleShowMore ? '' : 'overflow-hidden'"
+                      [ngStyle]="{ height: venueChildRuleShowMore ? 'auto' : '45px' }">
+                      <label class="text-white">{{ venueDetails.childRule }}</label>
+                    </div>
+                    <div *ngIf="!venueChildRuleShowMore">
+                      <label class="text-info fs-6 text-decoration-underline backButton"
+                        (click)="showMoreChildRule()">Show More</label>
+                      <span class="material-icons text-white backButton"
+                        (click)="showMoreChildRule()">keyboard_arrow_down</span>
+                    </div>
+                    <div *ngIf="venueChildRuleShowMore">
+                      <label class="text-info fs-6 text-decoration-underline backButton"
+                        (click)="showMoreChildRule()">Show Less</label>
+                      <span class="material-icons text-white backButton"
+                        (click)="showMoreChildRule()">keyboard_arrow_up</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row p-4 d-flex justify-content-center" *ngIf="venueDetails.location.longitude">
+              <button class="btn btn-danger rounded-2 w-auto" data-bs-toggle="modal"
+                data-bs-target="#googleMapsModal">Show venue on Google map</button>
+            </div>
+          </div>
+        </mat-tab>
+        -->
+      </mat-tab-group>
+    </div>
+  </div>
+</div>
+<!---
+<div class="modal" tabindex="-1" id="googleMapsModal" data-bs-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title fs-5 fw-bold">Event Venue</h2>
+            </div>
+            <div class="modal-body">
+                <div class="p-1 overflow-hidden">
+                    <google-map [center]="{lat: venueDetails.location.latitude, lng: venueDetails.location.longitude}" [zoom]="14" [width]="450" [height]="350">
+                        <map-marker [position]="{lat: venueDetails.location.latitude, lng: venueDetails.location.longitude}"></map-marker>
+                    </google-map>
+                </div>
+            </div>
+            <div class="d-flex justify-content-start ps-4 pt-2 pb-4">
+                <button type="button" class="btn btn-dark rounded-2" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+--->

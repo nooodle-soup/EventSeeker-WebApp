@@ -1,0 +1,108 @@
+<div class="container">
+  <div class="row justify-content-md-center search-box-container">
+    <div class="col-md-auto search-box">
+      <form ngNativeValidate [formGroup]="searchForm" id="event-form" (ngSubmit)="onSubmit()">
+        <div class="row p-3">
+          <div class="col search-box-head p-3">
+            Event Search
+          </div>
+        </div>
+        <div class="row gx-5">
+          <div class="col search-box-head">
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col p-3">
+            <label>Keyword<sup class="required">*</sup></label>
+            <input form="event-form" class="form-control w-100" type="text" id="keyword" formControlName="keyword" maxlength="255" required/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col p-3">
+            <label>Distance (miles)</label>
+            <input form="event-form" class="form-control w-100" type="number" id="radius" formControlName="radius" placeholder="10"/>
+          </div>
+          <div class="w-100 d-block d-sm-none"></div>
+          <div class="col p-3">
+            <label>Category<sup class="required">*</sup></label>
+            <select form="event-form" class="form-select w-75" id="category-dropdown" formControlName="category">
+                <option *ngFor="let option of options" [value]="option" [selected]="option === defaultOption">{{ option }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col p-3">
+            <label>Location<sup class="required">*</sup></label>
+            <input form="event-form" class="form-control" required type="text" id="location" formControlName="location" maxlength="255"/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input form="event-form" type="checkbox" id="location-checkbox" formControlName="autoDetect" (change)="toggleAutoDetect($event)"/>
+            <label id="autodetect">Auto-detect Location</label>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-3 p-3 d-flex justify-content-end">
+            <button form="event-form" class="btn btn-danger" id="form-submit">SEARCH</button>
+          </div>
+          <div class="col-3 p-3 d-flex justify-content-start">
+            <button form="event-form" class="btn btn-primary" id="form-clear" type="button" (click)="onClear()">CLEAR</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- <form ngNativeValidate [formGroup]="searchForm" id="event-form" (ngSubmit)="onSubmit()">
+  <table class="search-box">
+      <thead>
+          <th colspan="2" id="search-box-head">
+              Events Search
+          </th>
+      </thead>
+      <tbody id="search-box-body">
+          <tr>
+              <td colspan="2" id="search-head-separator"><hr></td>
+          </tr>
+          <tr>
+              <td colspan="2">
+                  <label>Keyword<sup class="required">*</sup></label>
+                  <input form="event-form" class="form-control" type="text" id="keyword" formControlName="keyword" maxlength="255" required/>
+              </td>
+          </tr>
+          <tr>
+              <td>
+                <label>radius (miles)</label>
+                <input form="event-form" class="form-control" type="number" id="radius" formControlName="radius" placeholder="10"/>
+              </td>
+              <td id="dropdown-cell">
+                  <label>Category<sup class="required">*</sup></label>
+                  <select form="event-form" class="form-select" id="category-dropdown" formControlName="category">
+                      <option *ngFor="let option of options" [value]="option">{{ option }}</option>
+                  </select>
+              </td>
+          </tr>
+          <tr>
+              <td colspan="2">
+                <label>Location<sup class="required">*</sup></label>
+                <input form="event-form" class="form-control" required type="text" id="location" formControlName="location" maxlength="255"/>
+              </td>
+          </tr>
+          <tr>
+            <td>
+                <input form="event-form" type="checkbox" id="location-checkbox" formControlName="autodetect"/>
+                <label>Auto-detect Location</label>
+            </td>
+          </tr>
+          <tr>
+              <td>
+                  <button form="event-form" class="btn btn-danger" id="form-submit">SEARCH</button> 
+                  <button form="event-form" class="btn btn-primary" id="form-clear" type="button" (click)="onClear()">CLEAR</button>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+</form> -->
