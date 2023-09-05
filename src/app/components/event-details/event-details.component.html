@@ -1,11 +1,11 @@
 <div class="justify-content-center row pt-5 ms-1 me-1 pb-5">
   <div class="pt-5 justify-content-center d-flex">
-    <div class="col-md-6 text-center blurclass tabs">
-      <div class="justify-content-start d-flex pb-4 pt-2">
+    <div class="col-md-6 rounded-4 text-center blurclass tabs">
+      <div class="justify-content-start d-flex pb-3 pt-3">
         <span class="ps-2 material-icons text-white backButton" (click)="emitShowEventList()">
           keyboard_arrow_left
         </span>
-        <label class="text-white fs-6 text-decoration-underline backButton" (click)="emitShowEventList()">
+        <label class="text-white fs-6 d-flex align-items-center text-decoration-underline backButton" (click)="emitShowEventList()">
           Back
         </label>
       </div>
@@ -15,11 +15,11 @@
             {{ eventDetails.name }}
           </label>
           <span *ngIf="favoriteEvents[eventDetails.id] === undefined"
-            class="material-icons bg-white rounded-5 text-dark p-2 backButton" (click)="addToFavorites()">
+            class="material-icons ms-2 bg-white rounded-5 text-dark p-2 backButton" (click)="addToFavorites()">
             favorite_border
           </span>
           <span *ngIf="favoriteEvents[eventDetails.id] !== undefined"
-            class="material-icons bg-white rounded-5 text-danger p-2 backButton" (click)="removeFromFavorites()">
+            class="material-icons ms-2 bg-white rounded-5 text-danger p-2 backButton" (click)="removeFromFavorites()">
             favorite
           </span>
         </div>

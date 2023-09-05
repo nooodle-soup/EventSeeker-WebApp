@@ -1,4 +1,8 @@
 .blurclass {
-    background-color: rgba(255,255,255,0.2);
-    backdrop-filter: blur(10px);
+  background-color: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+}
+
+.backButton:hover {
+  cursor: pointer;
 }

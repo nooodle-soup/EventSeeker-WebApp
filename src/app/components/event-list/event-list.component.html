@@ -1,25 +1,36 @@
-<table class="table table-dark table-striped table-sm text-center">
-  <thead>
-    <tr>
-      <th>Date/Time</th>
-      <th>Icon</th>
-      <th>Event</th>
-      <th>Genre</th>
-      <th>Venue</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let event of events" (click)="emitShowEventDetails(event)">
-      <td class="fw-bold p-2">
-        <small>{{ event.date }}<br />
-        {{ event.time }}</small>
-      </td>
-      <td class="p-2">
-        <img [src]="event.icon" class="eventList"/>
-      </td>
-      <td class="p-2">{{ event.name }}</td>
-      <td class="p-2">{{ event.genre }}</td>
-      <td class="w-25 p-2">{{ event.venue }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="justify-content-center row pt-5 ms-1 me-1 pb-3" *ngIf="events.length === 0">
+  <div class="col-md-6 text-center pt-5">
+    <label class="rounded-5 bg-white text-danger fs-6 w-100 fw-bold">No results available</label>
+  </div>
+</div>
+<div class="justify-content-center row pt-5 ms-1 me-1 pb-5" *ngIf="events.length > 0">
+  <div class="pt-5 d-flex justify-content-center">
+    <div class="col-md-8 overflow-auto rounded-4 bg-dark h-auto">
+      <table class="table table-dark table-striped table-sm text-center">
+        <thead>
+          <tr>
+            <th>Date/Time</th>
+            <th>Icon</th>
+            <th>Event</th>
+            <th>Genre</th>
+            <th>Venue</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let event of events" (click)="emitShowEventDetails(event)">
+            <td class="align-middle fw-bold p-2">
+              <small>{{ event.date }}<br />
+                {{ event.time }}</small>
+            </td>
+            <td class="align-middle p-2">
+              <img [src]="event.icon" class="eventList" />
+            </td>
+            <td class="align-middle p-2">{{ event.name }}</td>
+            <td class="align-middle p-2">{{ event.genre }}</td>
+            <td class="align-middle w-25 p-2">{{ event.venue }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
